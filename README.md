@@ -5,15 +5,15 @@
     一些脚本，每天定时自动签到
     <br/>
     <br/>
-    <a href="https://github.com/sudojia/AutoTaskScript/issues/new/choose" target="_blank">🐛上报 Bug、🤔问题反馈、📄需求提报！</a>
+    <a href="https://github.com/usernamelessss/AutoTaskScript/issues/new/choose" target="_blank">🐛上报 Bug、🤔问题反馈、📄需求提报！</a>
 </p>
 <p align="center">
-    <img alt="Gitea Stars" src="https://img.shields.io/github/stars/sudojia/AutoTaskScript?style=flat-square&logo=GitHub">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/sudojia/AutoTaskScript?style=flat-square&logo=GitHub">
-    <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/sudojia/AutoTaskScript?style=flat-square&logo=GitHub">
-    <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-closed-raw/sudojia/AutoTaskScript?style=flat-square&logo=GitHub">
-    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/sudojia/AutoTaskScript?style=flat-square&logo=GitHub">
-    <img alt="GitHub License" src="https://img.shields.io/github/license/sudojia/AutoTaskScript?style=flat-square">
+    <img alt="Gitea Stars" src="https://img.shields.io/github/stars/usernamelessss/AutoTaskScript?style=flat-square&logo=GitHub">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/usernamelessss/AutoTaskScript?style=flat-square&logo=GitHub">
+    <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/usernamelessss/AutoTaskScript?style=flat-square&logo=GitHub">
+    <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-closed-raw/usernamelessss/AutoTaskScript?style=flat-square&logo=GitHub">
+    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/usernamelessss/AutoTaskScript?style=flat-square&logo=GitHub">
+    <img alt="GitHub License" src="https://img.shields.io/github/license/usernamelessss/AutoTaskScript?style=flat-square">
 </p>
 
 
@@ -21,17 +21,6 @@
 ## 💡食用指南
 
 [点我前往查看脚本食用指南](https://rh-docs.netlify.app/)
-
-## 💬讨论交流
-
-- [💬Telegram Group](https://t.me/v_script)
-- [🔔Telegram Channel](https://t.me/IiiiOOiiiiOO)
-
-## 👍服务器推荐
-
-1. [【阿里云】2核2G3M，99/年，续费同价](https://www.aliyun.com/daily-act/ecs/activity_selection?userCode=ga5zx65v)
-2. [【腾讯云】2核2G4M云服务器新老同享99元/年，续费同价](https://curl.qcloud.com/3wQPyTQE)
-3. [【华为云】普惠上云专区限时秒杀：2核2G2M，最低38/年](https://activity.huaweicloud.com/discount_area_v5/index.html)
 
 ## 🗃项目架构
 
@@ -66,16 +55,6 @@
 
 > 您在本仓库使用或复制了本库中由本人开发的任何脚本，即视为已接受此声明。请在使用前仔细阅读以上条款。
 
-## 🥣打赏支持
-
-[打赏作者](https://rh-docs.netlify.app/docs/support/)
-
-如果觉得这个项目帮助到了你，你可以选择以打赏的方式来表达你的赞赏，无论是一杯奶茶🧋还是一包辣条🌶️
-
-每一份打赏都是我开发脚本的极大鼓励，也是我继续前进的动力。
-
-> 打赏是完全自愿的，我从未也不会强迫任何人这样做
-
 ## ⚖️License
 
-[GPLv3](https://github.com/sudojia/AutoTaskScript/blob/script/LICENSE) licensed.
+[GPLv3](https://github.com/usernamelessss/AutoTaskScript/blob/script/LICENSE) licensed.

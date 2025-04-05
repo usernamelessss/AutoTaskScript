@@ -1052,7 +1052,7 @@ function wxPusherNotify(text, desp) {
                 summary: `${text}`,
                 content: `${desp}`,
                 contentType: 2,
-                url: 'https://github.com/sudojia/AutoTaskScript',
+                url: 'https://github.com/usernamelessss/AutoTaskScript',
             };
             const options = {
                 url: `https://wxpusher.zjiecode.com/api/send/message`,
