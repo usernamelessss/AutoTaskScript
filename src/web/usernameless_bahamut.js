@@ -38,6 +38,8 @@ $.barkKey = '';
 // 为通知准备的空数组
 $.notifyMsg = [];
 
+// 消息推送
+let message = '';
 (async function () { // 立即运行的匿名异步函数
     await BahamutLogin(); // 登录
     await BahamutGuildSign(); //签到巴哈公会
@@ -47,6 +49,9 @@ $.notifyMsg = [];
     .finally(async () => { //finally在catch之后无论有无异常都会执行
         if ($.barkKey) { //如果已填写Bark Key
             await BarkNotify($, $.barkKey, $.name, $.notifyMsg.join('\n')); //推送Bark通知
+        }
+        if (message) {
+            await notify.sendNotify(`「${$.name}」`, `${message}`);
         }
         ;
         $.msg($.name, ``, $.notifyMsg.join('\n'), {
@@ -66,6 +71,7 @@ async function BahamutLogin(retry = 3, interval = 1000) { //登录函数，拿�
     for (let i = 0; i < retry; i++) { //循环登录(默认三次)
         if (i > 0) {
             $.log('', `🔶尝试第${i + 1}次登录...`);
+            message += `🔶尝试第${i + 1}次登录...\n`;
             await $.wait(interval); //延迟一秒
         }
         ;
@@ -82,7 +88,8 @@ async function BahamutLogin(retry = 3, interval = 1000) { //登录函数，拿�
                 const body = JSON.parse(resp.body); //解析响应体json为对象
                 if (body.userid) { //如果成功返回用户信息
                     $.BAHARUNE = JSON.stringify(resp.headers).split(/(BAHARUNE=\w+)/)[1];
-                    return `✅巴哈姆特登录成功`;
+
+                    return `✅巴哈姆特登录成功！`;
                 } else { //否则登录失败 (例如密码错误)
                     const failMsg = body.error ? body.error.message : null; //判断签到失败原因
                     throw new Error(`${body.message || failMsg || '原因未知'}`); //带上原因抛出异常
@@ -90,6 +97,7 @@ async function BahamutLogin(retry = 3, interval = 1000) { //登录函数，拿�
             }).catch((err) => `❌登录失败\n❌${err.message || err}`);
         $.log('', res.message || res);
         if (res === `✅巴哈姆特登录成功`) {
+            message += `✅巴哈姆特登录成功！\n`
             break; //登录成功则跳出循环
         } else if (retry == i + 1) { //如果最后一次重试仍登录失败
             throw new Error(res.message || res); //抛出错误, 被调用该函数时的catch捕获, 脚本结束.
@@ -103,17 +111,22 @@ function BahamutSign() { //查询巴哈姆特签到Token
         headers: {} //请求头, 客户端将自动设置Cookie字段
     }).then(async (resp) => { //网络请求成功的处理, 实例函数带有async关键字, 表示里面有异步操作
         if (resp.body) { //如果签到Token获取成功
-            $.log('', '✅获取签到令牌成功'); //打印日志
+            $.log('', '✅获取签到令牌成功！'); //打印日志
+            message += `✅获取签到令牌成功！\n`
             const sign = await StartSignBahamut(resp.body); //带上Token开始签到
-            $.notifyMsg.push(`主页签到: 成功, 已连续签到${sign}天`); //添加到全局变量备用 (通知)
+            $.notifyMsg.push(`主页签到: 成功, 已连续签到${sign}天！`); //添加到全局变量备用 (通知)
+            message += `主页签到: 成功, 已连续签到${sign}天！\n`
             await StartAdsBonus(resp.body.slice(0, 16), 'start'); //执行广告签到
         } else { //否则抛出异常
-            throw new Error('获取签到令牌失败'); //带上原因被下面catch捕获
+            message += `获取签到令牌失败！\n`
+            throw new Error('获取签到令牌失败！'); //带上原因被下面catch捕获
         }
     })
         .catch(err => {
-            $.notifyMsg.push(`主页签到: ${err.message || err}`); //添加到全局变量备用 (通知)
-            $.log('', `❌巴哈姆特签到失败`, `❌${err.message || err}`);
+            $.notifyMsg.push(`主页签到: ${err.message || err}`);
+            message += `主页签到: ${err.message || err}\n`
+            $.log('', `❌巴哈姆特签到失败！`, `❌${err.message || err}`);
+            message += `❌巴哈姆特签到失败！\n`
         }); // 捕获异常, 打印日志
 }
 
@@ -132,7 +145,8 @@ function StartSignBahamut(token) { //巴哈姆特签到
         .then(res => { // 网络请求成功的处理
             const body = JSON.parse(res.body); //解析响应体json为对象
             if (body.data) { // 如果签到成功 (判断预期响应格式)
-                $.log('', '✅巴哈姆特签到成功', `✅已连续签到${body.data.days}天`); //打印日志
+                $.log('', '✅巴哈姆特签到成功，', `✅已连续签到${body.data.days}天！`); //打印日志
+                message += `✅巴哈姆特签到成功，✅已连续签到${body.data.days}天！\n`
                 return body.data.days; //返回签到天数
             } else { //否则签到失败
                 const failMsg = body.error ? body.error.message : null; //判断签到失败原因
@@ -155,12 +169,14 @@ function StartAdsBonus(token, type) {
         .then(async (res) => { //网络请求成功的处理, 实例函数带有async关键字, 表示里面有异步操作
             const body = JSON.parse(res.body); //解析响应体json为对象
             if (body.data && body.data.finished == 0 && type == 'start') { //如果成功激活广告奖励
-                $.log('', '🔶正在执行广告签到 (30s)'); //打印日志
+                $.log('', '🔶正在执行广告签到 (30s)...'); //打印日志
+                message += `🔶正在执行广告签到 (30s)...\n`
                 await $.wait(30000); //等待30秒
                 await StartAdsBonus(token, 'finished'); //领取奖励函数
             } else if (body.data && body.data.finished == 1) { //如果广告奖励领取成功
-                $.log('', '✅领取广告奖励成功'); //打印日志
-                $.notifyMsg.push('广告签到: 成功, 已领取双倍签到奖励'); //添加到全局变量备用 (通知)
+                $.log('', '✅领取广告奖励成功！'); //打印日志
+                message += `✅领取广告奖励成功！\n`
+                $.notifyMsg.push('广告签到: 成功, 已领取双倍签到奖励！'); //添加到全局变量备用 (通知)
             } else {
                 const failMsg = body.error ? body.error.message : null; //判断签到失败原因
                 throw new Error(failMsg || body.message || '未知'); //带上原因抛出异常
@@ -168,7 +184,8 @@ function StartAdsBonus(token, type) {
         })
         .catch(err => {
             $.notifyMsg.push(`广告签到: ${err.message || err}`); //添加到全局变量备用 (通知)
-            $.log('', `❌广告奖励签到失败`, `❌${err.message || err}`);
+            $.log('', `❌广告奖励签到失败！`, `❌${err.message || err}`);
+            message += `❌广告奖励签到失败！`, `❌${err.message || err}\n`
         }); // 捕获异常, 打印日志
 }
 
@@ -189,20 +206,24 @@ function BahamutGuildSign() { //巴哈姆特查询公会列表
                     }
                 });
             if (list.length) { //过滤后, 如果包含公会列表
-                $.log('', `✅获取公会列表成功`); //打印日志
+                $.log('', `✅获取公会列表成功！`); //打印日志
+                message += `✅获取公会列表成功！\n`
                 //按照公会数量进行并发签到, map结合Promise.all后可以实现并发签到并且都完成后才进行下一行操作
                 const sign = await Promise.all(list.map(StartSignGuild));
                 const sucs = sign.filter(n => n === 1).length; //过滤后得到成功数量
                 const fail = sign.filter(n => n === 0).length; //过滤后得到失败数量
                 //添加到全局变量备用 (通知)
+                message += `公会签到: ${sucs ? `成功${sucs}个` : ``}${sucs && fail ? `, ` : ``}${fail ? `失败${fail}个` : ``}`
                 $.notifyMsg.push(`公会签到: ${sucs ? `成功${sucs}个` : ``}${sucs && fail ? `, ` : ``}${fail ? `失败${fail}个` : ``}`);
             } else {
-                throw new Error('公会列表为空'); //无公会列表则抛出异常
+                message += `公会列表为空！\n`
+                throw new Error('公会列表为空！'); //无公会列表则抛出异常
             }
         })
         .catch(err => { //捕获异常, 打印日志
             $.notifyMsg.push(`公会签到: ${err.message || err}`); //添加到全局变量备用 (通知)
-            $.log('', `❌巴哈姆特公会签到失败`, `❌${err.message || err}`); //打印日志
+            message += `\`❌巴哈姆特公会签到失败！\`, \`❌${err.message || err}\`\n`
+            $.log('', `❌巴哈姆特公会签到失败！`, `❌${err.message || err}`); //打印日志
         });
 }
 
@@ -222,6 +243,7 @@ function StartSignGuild(v) { //巴哈姆特公会签到
         .then((res) => { //网络请求成功后的处理
             const body = JSON.parse(res.body); //解析响应体json为对象
             $.log('', `🔷<${v.name}>`, `${body.ok ? `✅` : `❌`}${body.msg}`); //打印日志, 包含签到结果
+            message += `🔷<${v.name}>`, `${body.ok ? `✅` : `❌`}${body.msg}\n`
             if (body.ok) { //如果签到成功
                 return 1; //返回1表示成功
             } else {
@@ -230,6 +252,7 @@ function StartSignGuild(v) { //巴哈姆特公会签到
         })
         .catch(e => { //捕获异常, 打印日志
             $.log('', `🔷<${v.name}>`, `❌签到失败: ${e.message || e}`);
+            message+= `🔷<${v.name}>`, `❌签到失败: ${e.message || e}\n`
             return 0; //返回0表示失败
         });
 }
