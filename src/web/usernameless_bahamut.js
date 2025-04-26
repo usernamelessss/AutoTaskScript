@@ -18,19 +18,19 @@ $.pwd = process.env.BAHA_PWD;
 
 // 两步验证Token, 16位数, 未设置请保持默认
 // $.totp = $.getdata('@ND_BAHA.TOTP') || '';
-$.totp = process.env.ND_BAHA.TOTP || '';
+$.totp = process.env.ND_BAHA_TOTP || '';
 
 // 是否开启广告签到，true/false，默认关闭 (该功能耗时过长)
 // $.needSignAds = $.getdata('@ND_BAHA.ADS') || false;
-$.needSignAds = process.env.ND_BAHA.ADS || false;
+$.needSignAds = process.env.ND_BAHA_ADS || false;
 
 // 是否自动签到公会，true/false，默认开启
 // $.needSignGuild = $.getdata('@ND_BAHA.GUILD') || true;
-$.needSignGuild = process.env.ND_BAHA.GUILD || true;
+$.needSignGuild = process.env.ND_BAHA_GUILD || true;
 
 // 是否自动答题动画疯，true/false，默认开启 (不保证100%答题正确)
 // $.needAnswer = $.getdata('@ND_BAHA.ANSWER') || true;
-$.needAnswer = process.env.ND_BAHA.ANSWER || true;
+$.needAnswer = process.env.ND_BAHA_ANSWER || true;
 
 //Bark APP 通知推送Key
 $.barkKey = '';

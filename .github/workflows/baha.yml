@@ -3,9 +3,7 @@ name: tieba
 on:
   workflow_dispatch:
   schedule:
-    - cron: "50 5 * * *"
-    - timezone: "Asia/Shanghai""
-
+    - cron: "0 17,8 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,10 +30,14 @@ jobs:
 
       - name: Start running the script
         run: |
-          node src/web/sudojia_tieba.js
+          node src/web/usernameless_bahamut.js
         env:
-          TIE_BA_COOKIE: ${{ secrets.TIE_BA_COOKIE }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          BAHA_UID: ${{ secrets.BAHA_UID }}
+          BAHA_PWD: ${{ secrets.BAHA_PWD }}
+          ND_BAHA_TOTP: ${{ secrets.ND_BAHA_TOTP }}
+          ND_BAHA_ADS: ${{ secrets.ND_BAHA_ADS }}
+          ND_BAHA_GUILD: ${{ secrets.ND_BAHA_GUILD }}
+          ND_BAHA_ANSWER: ${{ secrets.ND_BAHA_ANSWER }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
