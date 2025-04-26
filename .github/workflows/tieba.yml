@@ -3,9 +3,7 @@ name: tieba
 on:
   workflow_dispatch:
   schedule:
-    - cron: "50 5 * * *"
-    - timezone: "Asia/Shanghai""
-
+    - cron: "0 17,8 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
