@@ -4,11 +4,12 @@
  包含主站签到、公会签到、动画疯答题等
 
  ************************/
-import notify from "../utils/sendNotify";
+const initScript = require('../utils/initScript')
+const {$, notify, usernamless, checkUpdate} = initScript('巴哈姆特签到');
 
 // 以下全局变量中的持久化接口为BoxJs预留, 以便修改
 // 把兼容函数定义到$中, 以便统一调用
-const $ = new Env('巴哈姆特');
+// const $ = new Env('巴哈姆特');
 
 // 用户名，如果不能自动获取用户名，可将 YourUserName 替换成自己的用户名
 // $.uid = $.getdata('@ND_BAHA.ID') || 'daike123';
