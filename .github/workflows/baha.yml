@@ -1,4 +1,4 @@
-name: tieba
+name: baha
 
 on:
   workflow_dispatch:
