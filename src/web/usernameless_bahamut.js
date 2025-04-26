@@ -53,7 +53,7 @@ let message = '';
             await BarkNotify($, $.barkKey, $.name, $.notifyMsg.join('\n')); //推送Bark通知
         }
         if (message) {
-            await notify.sendNotify(`「${$.name}」`, `${message}`);
+            await notify.sendNotify(`「${$.uid}」`, `${message}`);
         }
         ;
         $.msg($.name, ``, $.notifyMsg.join('\n'), {
@@ -74,6 +74,8 @@ async function BahamutLogin(retry = 3, interval = 1000) { //登录函数，拿�
         if (i > 0) {
             $.log('', `🔶尝试第${i + 1}次登录...`);
             message += `🔶尝试第${i + 1}次登录...\n`;
+            await notify.sendNotify(`${$.uid}`,`🔶尝试第${i + 1}次登录...\n`);
+
             await $.wait(interval); //延迟一秒
         }
         ;
@@ -100,6 +102,7 @@ async function BahamutLogin(retry = 3, interval = 1000) { //登录函数，拿�
         $.log('', res.message || res);
         if (res === `✅巴哈姆特登录成功`) {
             message += `✅巴哈姆特登录成功！\n`
+            await notify.sendNotify(`✅巴哈姆特登录成功！`, `登录 ID 为：${$.uid}\n`);
             break; //登录成功则跳出循环
         } else if (retry == i + 1) { //如果最后一次重试仍登录失败
             throw new Error(res.message || res); //抛出错误, 被调用该函数时的catch捕获, 脚本结束.
@@ -115,9 +118,13 @@ function BahamutSign() { //查询巴哈姆特签到Token
         if (resp.body) { //如果签到Token获取成功
             $.log('', '✅获取签到令牌成功！'); //打印日志
             message += `✅获取签到令牌成功！\n`
+            await notify.sendNotify(`${$.uid}`,`✅获取签到令牌成功！\n`);
+
             const sign = await StartSignBahamut(resp.body); //带上Token开始签到
             $.notifyMsg.push(`主页签到: 成功, 已连续签到${sign}天！`); //添加到全局变量备用 (通知)
             message += `主页签到: 成功, 已连续签到${sign}天！\n`
+            await notify.sendNotify(`${$.uid}`,`主页签到: 成功, 已连续签到${sign}天！\n`);
+
             await StartAdsBonus(resp.body.slice(0, 16), 'start'); //执行广告签到
         } else { //否则抛出异常
             message += `获取签到令牌失败！\n`
